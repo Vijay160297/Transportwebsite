@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Train Ticket Booking</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.trains {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.train {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.cart {
+    width: 300px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#cartItems {
+    list-style-type: none;
+    padding: 0;
+}
+
+#cartItems li {
+    padding: 5px 0;
+}
+
+    </style>
+</head>
+<body>
+    <div class="trains">
+        <h2>Available Ships</h2>
+        <div class="train" data-id="1" data-price="15000">
+            <h3>Truck 101: Karaikal to Bhuvaneshwar</h3>
+            <p>Price : $15000.00</p>
+            <button class="addToCartBtn">Add to Cart</button>
+        </div>
+        <div class="train" data-id="2" data-price="18000">
+            <h3> kakkinada  to srilanka</h3>
+            <p>Price: $18000.00</p>
+            <button class="addToCartBtn">Add to Cart</button>
+        </div>
+        <div class="train" data-id="3" data-price="10000">
+            <h3>Truck 303: Kochin to Nemam</h3>
+            <p>Price: $1000.00</p>
+            <button class="addToCartBtn">Add to Cart</button>
+        </div>
+        <div class="train" data-id="4" data-price="14000">
+            <h3>Train 304: Kanniyakumari to Appikonda</h3>
+            <p>Price: $14000.00</p>
+            <button class="addToCartBtn">Add to Cart</button>
+        </div>
+    </div>
+
+    <div class="cart">
+        <h2>Your Cart</h2>
+        <ul id="cartItems">
+            <!-- Cart items will appear here -->
+        </ul>
+        <p>Total: $<span id="totalAmount">0.00</span></p>
+    </div>
+
+    <script>
+        let cart = [];
+        let total = 0;
+
+document.querySelectorAll('.addToCartBtn').forEach(button => {
+    button.addEventListener('click', addToCart);
+});
+
+function addToCart(event) {
+    // Get train details from the clicked button's parent div
+    const trainDiv = event.target.closest('.train');
+    const trainId = trainDiv.getAttribute('data-id');
+    const trainName = trainDiv.querySelector('h3').textContent;
+    const trainPrice = parseFloat(trainDiv.getAttribute('data-price'));
+
+    // Add to cart array
+    cart.push({ id: trainId, name: trainName, price: trainPrice });
+
+    // Update cart display
+    updateCart();
+}
+
+function updateCart() {
+    const cartItemsElement = document.getElementById('cartItems');
+    const totalAmountElement = document.getElementById('totalAmount');
+
+    // Clear current cart display
+    cartItemsElement.innerHTML = '';
+
+    // Populate cart with items
+    cart.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+        cartItemsElement.appendChild(li);
+    });
+
+    // Update total
+    total = cart.reduce((sum, item) => sum + item.price, 0);
+    totalAmountElement.textContent = total.toFixed(2);
+}
+
+    </script>
+</body>
+</html>
